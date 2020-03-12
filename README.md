@@ -60,3 +60,12 @@ by default the filtered data will be used, to change this (including all spots) 
 space2h5ad -dd SPACERANGER_OUTPUT_DIR --use_raw
 
 ```
+
+by default ENSEMBL ids will be used, as gene names (index of vars), this can however be changed by adding the flag ```--gene_names```. For example:
+
+```sh
+space2h5ad -dd SPACERANGER_OUTPUT_DIR --gene_names
+
+```
+
+Since gene symbols may map to the same ENSEMBL id, there's not a one-to-one relationship between the two. To circumvent this the first instance of a gene name is kept whilst the others are discarded. This feature will likely be refined in the future.

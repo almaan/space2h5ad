@@ -116,7 +116,7 @@ def format_spaceranger_output(data_dir : str,
         idx = np.sort(idx)
         genes = var['name'].values[idx]
 
-        var = var.iloc[:,idx]
+        var = var.iloc[idx,:]
         cnt = cnt.iloc[:,idx]
 
     var.index = cnt.columns
@@ -137,8 +137,8 @@ def main():
 
     aa('-dd',"--data_dir",type = str,required = True)
     aa('-o',"--output",type = str, default = None)
-    aa('-gn',"--gene_names",type = bool, default = False)
-    aa('-ur',"--use_raw",type = bool, default = False,action = 'store_true')
+    aa('-gn',"--gene_names", default = False,action = 'store_true')
+    aa('-ur',"--use_raw", default = False,action = 'store_true')
 
 
     args = prs.parse_args()
