@@ -34,7 +34,12 @@ A ```setup.py``` file is provided for easy installation simply run
 ./setup.py install
 ```
 
-to install the package
+to install the package. Depending on your system/rights you might have to use the ```--user``` flag, exchanging the above command for:
+```sh
+./setup.py install --user
+```
+
+
 
 
 ## Running
