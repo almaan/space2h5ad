@@ -1,9 +1,0 @@
-setup.py
-space2h5ad/__init__.py
-space2h5ad/__main__.py
-spaceranger_2_h5ad.egg-info/PKG-INFO
-spaceranger_2_h5ad.egg-info/SOURCES.txt
-spaceranger_2_h5ad.egg-info/dependency_links.txt
-spaceranger_2_h5ad.egg-info/entry_points.txt
-spaceranger_2_h5ad.egg-info/requires.txt
-spaceranger_2_h5ad.egg-info/top_level.txt

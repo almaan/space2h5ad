@@ -1,3 +1,0 @@
-[console_scripts]
-space2h5ad = space2h5ad.__main__:main
-
