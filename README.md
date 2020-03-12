@@ -46,9 +46,9 @@ space2h5ad -dd SPACERANGER_OUTPUT_DIR
 
 ```
 
-this will generate a file ```feature_matrix.h5ad``` in the folder SPACERANGER_OUTPUT_DIR. 
+this will generate a file ```feature_matrix.h5ad``` in the folder ```SPACERANGER_OUTPUT_DIR```. 
 
-You can specify anouther output file by adding the argument ```-o```, for example 
+You can specify another output file by adding the argument ```-o```, for example 
 ```sh
 space2h5ad -dd SPACERANGER_OUTPUT_DIR -o /tmp/visium-data-sample-1.h5ad
 
