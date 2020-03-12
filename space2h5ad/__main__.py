@@ -18,10 +18,16 @@ import json
 
 def format_spaceranger_output(data_dir : str,
                               use_hgnc : bool = False,
+                              use_raw : bool = False,
                               ) -> ad.AnnData:
 
+    if use_raw:
+        count_type = 'raw'
+    else:
+        count_type = 'filtered'
+
     pths = dict(data = osp.join(data_dir,
-                                "filtered_feature_bc_matrix.h5"),
+                                count_type + "_feature_bc_matrix.h5"),
                 spots = osp.join(data_dir,
                                  "spatial",
                                  "tissue_positions_list.csv"),
@@ -132,14 +138,19 @@ def main():
     aa('-dd',"--data_dir",type = str,required = True)
     aa('-o',"--output",type = str, default = None)
     aa('-gn',"--gene_names",type = bool, default = False)
+    aa('-ur',"--use_raw",type = bool, default = False,action = 'store_true')
 
 
     args = prs.parse_args()
+
     adata = format_spaceranger_output(args.data_dir,
                                       args.gene_names,
+                                      args.use_raw,
                                       )
 
-    if not args.output.split('.')[-1] == 'h5ad':
+    if args.output is None:
+        out_pth = osp.join(args.data_dir,"feature_matrix.h5ad")
+    elif not args.output.split('.')[-1] == 'h5ad':
         out_pth = args.output + '.h5ad'
     else:
         out_pth = args.output
