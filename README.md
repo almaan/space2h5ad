@@ -1,6 +1,6 @@
 # Automatic generation of h5ad files from spaceranger output
 
-```.h5ad``` is a format for storing annotaded data, released in conjunction with the publication of Scanpy. It has gained a lot of traction and is highly suitable for storing Visium data; allowing one to store coordinates, count data, annotations, gene names, images and scaling factors in one single file. There's no established convention for how the Visum data should be stored, thus the structure described in "Data Structure" is used. Once installed, this package allows for easy conversion from the spaceranger output to the h5ad format, where the only required input is the spaceranger output directory.
+```.h5ad``` is a format for storing annotaded data, released in conjunction with the publication of Scanpy. It has gained a lot of traction and is highly suitable for storing Visium data; allowing one to store coordinates, count data, annotations, gene names, images and scaling factors in one single file. There's no established convention for how the Visum data should be stored, thus the structure described in **Structure** is used. Once installed, this package allows for easy conversion from the spaceranger output to the h5ad format, where the only required input is the spaceranger output directory.
 
 
 ## Structure 
