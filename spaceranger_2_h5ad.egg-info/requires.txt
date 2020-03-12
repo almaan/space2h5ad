@@ -1,0 +1,6 @@
+pillow
+anndata
+h5py
+pandas
+numpy
+scipy
