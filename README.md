@@ -18,7 +18,6 @@ Read more about anndata [here](https://anndata.readthedocs.io/en/latest/)
   * _y : array y-coordinates
   * x : pixel x-coordinates (use these for visualization)
   * y : pixel y-coordinates (use these for visualization)
-  * sample : string indicating which sample a spot belongs to
 * var
   * name : HGNC gene symbols (duplicates may occur)
   * id : ENSEMBL annotations 
