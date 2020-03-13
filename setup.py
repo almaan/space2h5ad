@@ -12,7 +12,7 @@ setuptools.setup(
     install_requires = [
         "pillow",
         "anndata",
-        "h5py",
+        "h5py>=2.0.0",
         "pandas",
         "numpy",
         "scipy",
