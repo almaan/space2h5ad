@@ -2,6 +2,7 @@
 
 import argparse as arp
 import os.path as osp
+from os import mkdir,listdir
 
 import anndata as ad
 import h5py
@@ -26,8 +27,17 @@ def format_spaceranger_output(data_dir : str,
     else:
         count_type = 'filtered'
 
+
+    dir_files = listdir(data_dir)
+    is_feature_file = lambda x : "feature_bc_matrix.h5" in x and \
+                                    count_type in x
+
+    feature_file = list(filter(is_feature_file ,dir_files))[0]
+    print(feature_file)
+    
+
     pths = dict(data = osp.join(data_dir,
-                                count_type + "_feature_bc_matrix.h5"),
+                                feature_file),
                 spots = osp.join(data_dir,
                                  "spatial",
                                  "tissue_positions_list.csv"),
@@ -56,8 +66,9 @@ def format_spaceranger_output(data_dir : str,
         raw_data = f['matrix']
         matrix = sp_sparse.csc.csc_matrix((np.asarray(raw_data.get('data')),
                                         np.asarray(raw_data.get("indices")),
-                                        np.asarray(raw_data.get("indptr")),
-                                        ))
+                                        np.asarray(raw_data.get("indptr"))),
+                                        shape = np.asarray(raw_data.get("shape")),
+                                        )
 
         barcodes =  pd.Index(np.asarray(raw_data.get('barcodes')).astype(np.str))
         name_id = np.asarray(raw_data['features']['id'] ).astype(np.str)
@@ -87,7 +98,6 @@ def format_spaceranger_output(data_dir : str,
                 'y']
 
     spt.index = spt['barcodes']
-
 
     cnt = pd.DataFrame(matrix.todense().T,
                     index = barcodes,
@@ -129,16 +139,43 @@ def format_spaceranger_output(data_dir : str,
 
     return adata
 
+def _log():
+    with open("rsc/log_template.txt","r+") as fopen:
+        text = fopen.readlines()
+
+    text.replace("$DATE",str(datetime.datetime.now()))
+    text.replace("$DATA_DIRECTORY",osp.abspath(data_dir))
+    text.replace("$GENE_NAMES",names)
+    text.replace("$OUTPUT",osp.abspath(out_pth))
+
+    return text
+
 def main():
 
     prs = arp.ArgumentParser()
 
     aa = prs.add_argument
 
-    aa('-dd',"--data_dir",type = str,required = True)
-    aa('-o',"--output",type = str, default = None)
-    aa('-gn',"--gene_names", default = False,action = 'store_true')
-    aa('-ur',"--use_raw", default = False,action = 'store_true')
+    aa('-dd',
+       "--data_dir",
+       type = str,
+       required = True)
+    aa('-o',
+       "--output",
+       type = str,
+       default = None)
+    aa('-gn',
+       "--gene_names",
+       default = False,
+       action = 'store_true')
+    aa('-ur',
+       "--use_raw",
+       default = False,
+       action = 'store_true')
+    aa('-nl',
+       "--no_log",
+       default = False,
+       action = 'store_true')
 
 
     args = prs.parse_args()
@@ -149,15 +186,30 @@ def main():
                                       )
 
     if args.output is None:
-        out_pth = osp.join(args.data_dir,"feature_matrix.h5ad")
+        out_pth = osp.join(args.data_dir,
+                           "feature_matrix.h5ad")
     elif not args.output.split('.')[-1] == 'h5ad':
         out_pth = args.output + '.h5ad'
     else:
         out_pth = args.output
 
+    dname = osp.dirname(osp.abspath(out_pth))
+    print(dname)
+
+    if not osp.exists(dname):
+        print("[INFO] : Created directory {}".format(out_pth))
+        mkdir(dname)
+
     print("[INFO] : Saving Data to : {}".format(out_pth))
 
     adata.write(out_pth)
+
+    # if not args.no_log:
+    #     text = _log()
+    #     log_out = out_pth.replace('h5ad','log')
+    #     with open(log_out,"w+") as fopen:
+    #         fopen.write(text)
+
 
 if __name__ == '__main__':
     main()
