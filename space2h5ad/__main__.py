@@ -15,7 +15,7 @@ import scipy.sparse as sp_sparse
 from PIL import Image
 
 import json
- 
+
 
 def format_spaceranger_output(data_dir : str,
                               use_hgnc : bool = False,
@@ -34,7 +34,7 @@ def format_spaceranger_output(data_dir : str,
 
     feature_file = list(filter(is_feature_file ,dir_files))[0]
     print(feature_file)
-    
+
 
     pths = dict(data = osp.join(data_dir,
                                 feature_file),
