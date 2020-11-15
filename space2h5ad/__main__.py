@@ -122,14 +122,16 @@ def format_spaceranger_output(data_dir : str,
     if use_hgnc:
 
         _,idx = np.unique(var['name'].values,
-                            return_index = True)
+                          return_index = True)
         idx = np.sort(idx)
         genes = var['name'].values[idx]
 
         var = var.iloc[idx,:]
         cnt = cnt.iloc[:,idx]
 
-    var.index = cnt.columns
+    # var.index = cnt.columns
+    cnt.columns = genes
+    var.index = genes
 
     adata = ad.AnnData(cnt.values,
                     obs = spt,
