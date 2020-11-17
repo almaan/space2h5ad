@@ -84,9 +84,9 @@ def format_spaceranger_output(data_dir : str,
     _ = scf.pop("tissue_lowres_scalef")
 
     spt = pd.read_csv(pths['spots'],
-                    sep = ',',
-                    header = None,
-                    index_col = None)
+                      sep = ',',
+                      header = None,
+                      index_col = None)
 
     print("[INFO] : Formatting data")
 
@@ -100,9 +100,9 @@ def format_spaceranger_output(data_dir : str,
     spt.index = spt['barcodes']
 
     cnt = pd.DataFrame(matrix.todense().T,
-                    index = barcodes,
-                    columns = name_id,
-                    )
+                       index = barcodes,
+                       columns = name_id,
+                       )
 
     barcodes = spt.index.intersection(cnt.index)
 
@@ -121,17 +121,13 @@ def format_spaceranger_output(data_dir : str,
 
     if use_hgnc:
 
-        _,idx = np.unique(var['name'].values,
+        _,idx = np.unique(var.name.values,
                           return_index = True)
-        idx = np.sort(idx)
-        genes = var['name'].values[idx]
 
         var = var.iloc[idx,:]
+        var.index = var.name.values
         cnt = cnt.iloc[:,idx]
-
-    # var.index = cnt.columns
-    cnt.columns = genes
-    var.index = genes
+        cnt.columns = var.name.values
 
     adata = ad.AnnData(cnt.values,
                     obs = spt,
@@ -196,7 +192,6 @@ def main():
         out_pth = args.output
 
     dname = osp.dirname(osp.abspath(out_pth))
-    print(dname)
 
     if not osp.exists(dname):
         print("[INFO] : Created directory {}".format(out_pth))
