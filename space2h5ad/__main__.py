@@ -135,6 +135,12 @@ def format_spaceranger_output(data_dir : str,
                     uns = scf,
                     )
 
+    adata.obs.index = adata.obs.index.values.astype(str)
+    adata.var.index = adata.var.index.values.astype(str)
+    adata.obs.columns = adata.obs.columns.values.astype(str)
+    adata.var.columns = adata.var.columns.values.astype(str)
+
+
     return adata
 
 def _log():
