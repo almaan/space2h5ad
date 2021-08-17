@@ -3,6 +3,7 @@
 import argparse as arp
 import os.path as osp
 from os import mkdir,listdir
+import sys
 
 import anndata as ad
 import h5py
@@ -53,7 +54,7 @@ def format_spaceranger_output(data_dir : str,
 
     if not all(file_status):
         print("[ERROR] : Data is incomplete.")
-        for s,f in zip(file_status,pths.values):
+        for s,f in zip(file_status,pths.values()):
             if not s:
                 print("\tMissing : {}".format(f))
         print("Exiting")
